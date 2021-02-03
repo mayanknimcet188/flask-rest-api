@@ -85,6 +85,14 @@ def update_article(id):
 
     db.session.commit()
     return article_schema.jsonify(article)
+
+#Delete single product
+@app.route('/articles/<int:id>',methods=['DELETE'])
+def delete_article(id):
+    article = Article.query.get(id)
+    db.session.delete(article)
+    db.session.commit()
+    return article_schema.jsonify(article)
 #Run the flask server
 if __name__ == '__main__':
     app.run(debug=True)
