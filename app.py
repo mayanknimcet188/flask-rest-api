@@ -58,6 +58,11 @@ def get_articles():
     result = articles_schema.dump(all_articles)
     return jsonify(result)
 
+#Get single article by id
+@app.route('/articles/<int:id>',methods=['GET'])
+def get_article(id):
+    article = Article.query.filter_by(id=id).first_or_404()
+    return article_schema.jsonify(article)
 #Run the flask server
 if __name__ == '__main__':
     app.run(debug=True)
