@@ -63,6 +63,12 @@ def get_articles():
 def get_article(id):
     article = Article.query.filter_by(id=id).first_or_404()
     return article_schema.jsonify(article)
+
+#Get single article by title
+@app.route('/articles/<title>',methods=['GET'])
+def get_article_by_title(title):
+    article = Article.query.filter_by(title=title).first_or_404()
+    return article_schema.jsonify(article)
 #Run the flask server
 if __name__ == '__main__':
     app.run(debug=True)
