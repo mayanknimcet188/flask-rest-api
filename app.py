@@ -38,6 +38,17 @@ class ArticleSchema(ma.Schema):
 #For a single article
 article_schema = ArticleSchema()
 articles_schema = ArticleSchema(many=True)
+#HTTP Routes
+@app.route('/articles',methods=['POST'])
+def add_article():
+    author = request.json['author']
+    title = request.json['title']
+    content = request.json['content']
+
+    new_article = Article(author,title,content)
+    db.session.add(new_article)
+    db.session.commit()
+    return article_schema.jsonify(new_article)
 
 #Run the flask server
 if __name__ == '__main__':
