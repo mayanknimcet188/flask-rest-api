@@ -39,6 +39,7 @@ class ArticleSchema(ma.Schema):
 article_schema = ArticleSchema()
 articles_schema = ArticleSchema(many=True)
 #HTTP Routes
+# Add article
 @app.route('/articles',methods=['POST'])
 def add_article():
     author = request.json['author']
@@ -49,6 +50,13 @@ def add_article():
     db.session.add(new_article)
     db.session.commit()
     return article_schema.jsonify(new_article)
+
+#Get all articles
+@app.route('/articles',methods=['GET'])
+def get_articles():
+    all_articles = Article.query.all()
+    result = articles_schema.dump(all_articles)
+    return jsonify(result)
 
 #Run the flask server
 if __name__ == '__main__':
