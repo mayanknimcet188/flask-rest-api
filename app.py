@@ -69,6 +69,22 @@ def get_article(id):
 def get_article_by_title(title):
     article = Article.query.filter_by(title=title).first_or_404()
     return article_schema.jsonify(article)
+
+# Update an article
+@app.route('/articles/<int:id>',methods=['PUT'])
+def update_article(id):
+    article = Article.query.get(id)
+
+    author = request.json['author']
+    title = request.json['title']
+    content = request.json['content']
+
+    article.author = author
+    article.title = title
+    article.content = content
+
+    db.session.commit()
+    return article_schema.jsonify(article)
 #Run the flask server
 if __name__ == '__main__':
     app.run(debug=True)
